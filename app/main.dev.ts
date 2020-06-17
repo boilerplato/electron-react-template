@@ -68,11 +68,7 @@ const createWindow = async () => {
           }
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL(`file://${__dirname}/../app.html`);
-  } else {
-    mainWindow.loadURL(`file://${__dirname}/app.html`);
-  }
+  mainWindow.loadURL(`file://${__dirname}/app.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
