@@ -1,0 +1,19 @@
+{
+  "name": "{{ appName }}",
+  "productName": "{{ product_name }}",
+  "version": "{{ app_version }}",
+  "description": "{{{ app_desc }}}",
+  "main": "./main.prod.js",
+  "author": "{{{ author }}}",
+  "repository": {
+    "type": "git",
+    "url": "git+{{ github_url }}.git"
+  },
+  "homepage": "{{ homepage }}",
+  "scripts": {
+    "electron-rebuild": "node -r ../internals/scripts/babel-register.js ../internals/scripts/electron-rebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "{{ license }}",
+  "dependencies": {}
+}

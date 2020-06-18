@@ -4,9 +4,13 @@ template:
   path: "."
   extension: ".boiler"
 data:
-  - name: app_name
+  - name: product_name
     type: string
     message: "Enter app name e.g. MyApp:"
+    required: true
+  - name: app_id
+    type: string
+    message: "Enter app id e.g. com.boilerplato.ElectronReact:"
     required: true
   - name: app_desc
     type: string
@@ -36,13 +40,18 @@ data:
     message: "App homepage?"
     required: false
     defaultValue: ""
+  - name: keywords
+    type: array[string]
+    message: "Enter keywords:"
+    required: false
+    defaultValue: []
 postGenerate: npm install
 helpText:
   - "Inside that directory, you can run several commands:\n"
-  - '  {{ color "npm run dev" "cyan" }}'
+  - '  {{ color "yarn dev" "cyan" }}'
   - "    Starts the development server.\n"
-  - '  {{ color "npm run package" "cyan" }}'
+  - '  {{ color "yarn package" "cyan" }}'
   - "    Package the app for current OS for production.\n"
   - "We suggest that you begin by typing:\n"
   - '  {{ color "cd" "cyan" }} $APP_REL_PATH'
-  - '  {{ color "npm run dev" "cyan" }}'
+  - '  {{ color "yarn dev" "cyan" }}'

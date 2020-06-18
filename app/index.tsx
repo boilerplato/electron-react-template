@@ -1,20 +1,18 @@
-import React, { Fragment } from 'react';
-import { render } from 'react-dom';
-import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
-import Root from './containers/Root';
-import { configureStore, history } from './store/configureStore';
-// import 'antd/dist/antd.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import { Provider } from 'react-redux';
 import './app.global.css';
+import App from './containers/App';
+import { configureStore, history } from './store/configureStore';
 
-const store = configureStore();
-
-const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
-
-document.addEventListener('DOMContentLoaded', () =>
-  render(
-    <AppContainer>
-      <Root store={store} history={history} />
-    </AppContainer>,
+document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(
+    <Provider store={configureStore()}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>,
     document.getElementById('root')
-  )
-);
+  );
+});

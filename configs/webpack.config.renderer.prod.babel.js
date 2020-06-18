@@ -1,7 +1,3 @@
-/**
- * Build config for electron renderer process
- */
-
 import path from 'path';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -10,11 +6,11 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import baseConfig from './webpack.config.base';
-import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
-import DeleteSourceMaps from '../internals/scripts/DeleteSourceMaps';
+import checkNodeEnv from '../internals/scripts/check-node-env';
+import deleteSourceMaps from '../internals/scripts/delete-source-maps';
 
-CheckNodeEnv('production');
-DeleteSourceMaps();
+checkNodeEnv('production');
+deleteSourceMaps();
 
 export default merge.smart(baseConfig, {
   devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
@@ -33,7 +29,6 @@ export default merge.smart(baseConfig, {
 
   module: {
     rules: [
-      // Extract all .global.css to style.css as is
       {
         test: /\.global\.css$/,
         use: [
@@ -51,7 +46,6 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // Pipe other styles through css modules and append to style.css
       {
         test: /^((?!\.global).)*\.css$/,
         use: [
@@ -61,15 +55,11 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              modules: {
-                localIdentName: '[name]__[local]__[hash:base64:5]'
-              },
               sourceMap: true
             }
           }
         ]
       },
-      // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
         test: /\.global\.(scss|sass)$/,
         use: [
@@ -91,7 +81,6 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // Add SASS support  - compile all other .scss files and pipe it to style.css
       {
         test: /^((?!\.global).)*\.(scss|sass)$/,
         use: [
@@ -101,9 +90,6 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              modules: {
-                localIdentName: '[name]__[local]__[hash:base64:5]'
-              },
               importLoaders: 1,
               sourceMap: true
             }
@@ -116,7 +102,6 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // WOFF Font
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         use: {
@@ -127,7 +112,6 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // WOFF2 Font
       {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
         use: {
@@ -138,7 +122,6 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // TTF Font
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         use: {
@@ -149,12 +132,10 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // EOT Font
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         use: 'file-loader'
       },
-      // SVG Font
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         use: {
@@ -165,7 +146,6 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
         use: 'url-loader'
@@ -174,23 +154,21 @@ export default merge.smart(baseConfig, {
   },
 
   optimization: {
-    minimizer: process.env.E2E_BUILD
-      ? []
-      : [
-          new TerserPlugin({
-            parallel: true,
-            sourceMap: true,
-            cache: true
-          }),
-          new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {
-              map: {
-                inline: false,
-                annotation: true
-              }
-            }
-          })
-        ]
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true
+      }),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          map: {
+            inline: false,
+            annotation: true
+          }
+        }
+      })
+    ]
   },
 
   plugins: [
@@ -205,8 +183,7 @@ export default merge.smart(baseConfig, {
      */
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
-      DEBUG_PROD: false,
-      E2E_BUILD: false
+      DEBUG_PROD: false
     }),
 
     new MiniCssExtractPlugin({

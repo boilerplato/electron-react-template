@@ -1,18 +1,14 @@
-/**
- * Webpack config for production electron main process
- */
-
 import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import baseConfig from './webpack.config.base';
-import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
-import DeleteSourceMaps from '../internals/scripts/DeleteSourceMaps';
+import checkNodeEnv from '../internals/scripts/check-node-env';
+import deleteSourceMaps from '../internals/scripts/delete-source-maps';
 
-CheckNodeEnv('production');
-DeleteSourceMaps();
+checkNodeEnv('production');
+deleteSourceMaps();
 
 export default merge.smart(baseConfig, {
   devtool: process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none',
@@ -21,7 +17,7 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-main',
 
-  entry: './app/main.dev.ts',
+  entry: './app/main.ts',
 
   output: {
     path: path.join(__dirname, '..'),
@@ -29,15 +25,13 @@ export default merge.smart(baseConfig, {
   },
 
   optimization: {
-    minimizer: process.env.E2E_BUILD
-      ? []
-      : [
-          new TerserPlugin({
-            parallel: true,
-            sourceMap: true,
-            cache: true
-          })
-        ]
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true
+      })
+    ]
   },
 
   plugins: [
@@ -59,8 +53,7 @@ export default merge.smart(baseConfig, {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
       DEBUG_PROD: false,
-      START_MINIMIZED: false,
-      E2E_BUILD: false
+      START_MINIMIZED: false
     })
   ],
 
