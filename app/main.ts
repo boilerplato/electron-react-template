@@ -53,11 +53,12 @@ async function createMainWindow() {
     height: 728,
     webPreferences: isDev()
       ? {
-          nodeIntegration: true
-        }
+        nodeIntegration: true
+      }
       : {
-          preload: path.join(__dirname, 'dist/renderer.prod.js')
-        }
+        nodeIntegration: true,
+        preload: path.join(__dirname, 'dist/renderer.prod.js')
+      }
   });
 
   if (isProd()) {
