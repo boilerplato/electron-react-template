@@ -49,7 +49,7 @@
     "files": [
       "dist/",
       "node_modules/",
-      "app.html",
+      "app.prod.html",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"
@@ -195,7 +195,6 @@
     "testcafe": "^1.8.0",
     "testcafe-browser-provider-electron": "^0.0.14",
     "testcafe-react-selectors": "^4.0.0",
-    "typed-css-modules-webpack-plugin": "^0.1.2",
     "typescript": "^3.7.5",
     "url-loader": "^3.0.0",
     "webpack": "^4.41.5",

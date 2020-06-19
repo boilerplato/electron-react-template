@@ -60,16 +60,14 @@ async function createMainWindow() {
         }
   });
 
-  await mainWindow.loadURL(`file://${__dirname}/app.html`);
+  if (isProd()) {
+    await mainWindow.loadURL(`file://${__dirname}/app.prod.html`);
+  } else {
+    await mainWindow.loadURL(`file://${__dirname}/app.dev.html`);
+  }
 
-  mainWindow.once('ready-to-show', () => {
-    if (!mainWindow) {
-      throw new Error('The `mainWindow` is not defined');
-    }
-
-    mainWindow.show();
-    mainWindow.focus();
-  });
+  mainWindow.show();
+  mainWindow.focus();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
