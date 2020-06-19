@@ -28,21 +28,6 @@
     "start-main-dev": "cross-env START_HOT=1 NODE_ENV=development electron -r ./internals/scripts/babel-register ./app/main.ts",
     "start-renderer-dev": "cross-env NODE_ENV=development webpack-dev-server --config configs/webpack.config.renderer.dev.babel.js"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development eslint --cache"
-    ],
-    "{*.json,.{babelrc,eslintrc,prettierrc,stylelintrc}}": [
-      "prettier --ignore-path .eslintignore --parser json --write"
-    ],
-    "*.{css,scss}": [
-      "stylelint --ignore-path .eslintignore --syntax scss --fix",
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ],
-    "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ]
-  },
   "build": {
     "productName": "ElectronReact",
     "appId": "com.boilerplato.ElectronReact",
@@ -189,9 +174,7 @@
     "eslint-plugin-testcafe": "^0.2.1",
     "fbjs-scripts": "^1.2.0",
     "file-loader": "^5.0.2",
-    "husky": "^4.2.0",
     "identity-obj-proxy": "^3.0.0",
-    "lint-staged": "^10.0.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
@@ -272,10 +255,5 @@
     "extends": [
       "bliss"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
