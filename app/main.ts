@@ -1,4 +1,3 @@
-import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import installExtension, {
   REDUX_DEVTOOLS,
@@ -51,14 +50,9 @@ async function createMainWindow() {
     show: false,
     width: 600,
     height: 728,
-    webPreferences: isDev()
-      ? {
-        nodeIntegration: true
-      }
-      : {
-        nodeIntegration: true,
-        preload: path.join(__dirname, 'dist/renderer.prod.js')
-      }
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   if (isProd()) {

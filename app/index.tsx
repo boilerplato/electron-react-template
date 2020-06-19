@@ -6,13 +6,11 @@ import './app.global.css';
 import App from './containers/App';
 import { configureStore, history } from './store/configureStore';
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Provider store={configureStore()}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
-    </Provider>,
-    document.getElementById('root')
-  );
-});
+ReactDOM.render(
+  <Provider store={configureStore()}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+);
