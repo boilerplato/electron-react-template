@@ -45,7 +45,7 @@ data:
     message: "Enter keywords:"
     required: false
     defaultValue: []
-postGenerate: npm install
+postGenerate: yarn
 helpText:
   - "Inside that directory, you can run several commands:\n"
   - '  {{ color "yarn dev" "cyan" }}'
